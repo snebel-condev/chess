@@ -4,6 +4,7 @@ package chess;
 import chess.pieces.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -93,6 +94,19 @@ public class GameState {
      */
     public Piece getPieceAt(Position position) {
         return positionToPieceMap.get(position);
+    }
+
+    public List<Position> filterIllegalMoves(Piece piece, List<Position> endPositions) {
+        Player owner = piece.getOwner();
+        // for each possible move, make sure the end position isn't
+        // occupied by a piece of the same color
+        for (Position endPosition : endPositions) {
+            Piece occupyingPiece = positionToPieceMap.get(endPosition);
+            if (occupyingPiece != null && occupyingPiece.getOwner().equals(owner)) {
+                endPositions.remove(endPosition);
+            }
+        }
+        return endPositions;
     }
 
     /**

@@ -80,23 +80,26 @@ public class CLI {
     }
 
     private void listMoves() {
-        Player currentPlayer = gameState.getCurrentPlayer();
-        Map<String, String> possibleMoves = new HashMap<String, String>();
+        Map<Position, List<Position>> legalMoves = new HashMap<Position, List<Position>>();
         Map<Position, Piece> positionPieceMap = gameState.getPositionToPieceMap();
+
         for (Position position : positionPieceMap.keySet()) {
             Piece piece = positionPieceMap.get(position);
-            if (piece.getOwner().equals(currentPlayer)) {
-                Map<String, String> pieceMoves = piece.getLegalMoves();
-                possibleMoves.putAll(pieceMoves);
+            if (piece.getOwner().equals(gameState.getCurrentPlayer())) {
+                // get all Positions this piece could potentially move to
+                List<Position> endPositions = piece.getPossibleEndPositions(position);
+                gameState.filterIllegalMoves(piece, endPositions); //remove illegal moves
+                legalMoves.put(position, endPositions);
             }
         }
-        printMoves(possibleMoves);
+        printMoves(legalMoves);
     }
 
-    private void printMoves(Map<String, String> moves) {
-        for (String startPosition : moves.keySet()) {
-            String endPosition = moves.get(startPosition);
-            writeOutput(startPosition + " " + endPosition);
+    private void printMoves(Map<Position, List<Position>> legalMoves) {
+        for (Position startPosition : legalMoves.keySet()) {
+            for (Position endPosition : legalMoves.get(startPosition)) {
+                writeOutput(startPosition + " " + endPosition);
+            }
         }
     }
 

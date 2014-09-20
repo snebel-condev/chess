@@ -1,7 +1,9 @@
 package chess.pieces;
 
 import chess.Player;
+import chess.Position;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,5 +31,5 @@ public abstract class Piece {
 
     protected abstract char getIdentifyingCharacter();
 
-    public abstract Map<String, String> getLegalMoves();
+    public abstract List<Position> getPossibleEndPositions(Position position);
 }
