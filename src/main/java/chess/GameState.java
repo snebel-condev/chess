@@ -33,6 +33,8 @@ public class GameState {
         return currentPlayer;
     }
 
+    public Map<Position, Piece> getPositionToPieceMap() { return positionToPieceMap; }
+
     /**
      * Call to initialize the game state into the starting positions
      */

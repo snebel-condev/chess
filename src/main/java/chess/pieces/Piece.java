@@ -2,6 +2,8 @@ package chess.pieces;
 
 import chess.Player;
 
+import java.util.Map;
+
 /**
  * A base class for chess pieces
  */
@@ -26,4 +28,6 @@ public abstract class Piece {
     }
 
     protected abstract char getIdentifyingCharacter();
+
+    public abstract Map<String, String> getLegalMoves();
 }

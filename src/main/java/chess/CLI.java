@@ -3,6 +3,10 @@ package chess;
 import chess.pieces.Piece;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides the basic CLI interface to the Chess game.
@@ -65,12 +69,34 @@ public class CLI {
                     writeOutput("Current Game:");
                 } else if (input.equals("list")) {
                     writeOutput("====> List Is Not Implemented (yet) <====");
+                    listMoves();
                 } else if (input.startsWith("move")) {
                     writeOutput("====> Move Is Not Implemented (yet) <====");
                 } else {
                     writeOutput("I didn't understand that.  Type 'help' for a list of commands.");
                 }
             }
+        }
+    }
+
+    private void listMoves() {
+        Player currentPlayer = gameState.getCurrentPlayer();
+        Map<String, String> possibleMoves = new HashMap<String, String>();
+        Map<Position, Piece> positionPieceMap = gameState.getPositionToPieceMap();
+        for (Position position : positionPieceMap.keySet()) {
+            Piece piece = positionPieceMap.get(position);
+            if (piece.getOwner().equals(currentPlayer)) {
+                Map<String, String> pieceMoves = piece.getLegalMoves();
+                possibleMoves.putAll(pieceMoves);
+            }
+        }
+        printMoves(possibleMoves);
+    }
+
+    private void printMoves(Map<String, String> moves) {
+        for (String startPosition : moves.keySet()) {
+            String endPosition = moves.get(startPosition);
+            writeOutput(startPosition + " " + endPosition);
         }
     }
 
