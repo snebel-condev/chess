@@ -68,7 +68,6 @@ public class CLI {
                 } else if (input.equals("board")) {
                     writeOutput("Current Game:");
                 } else if (input.equals("list")) {
-                    writeOutput("====> List Is Not Implemented (yet) <====");
                     listMoves();
                 } else if (input.startsWith("move")) {
                     writeOutput("====> Move Is Not Implemented (yet) <====");
@@ -83,13 +82,11 @@ public class CLI {
         Map<Position, List<Position>> legalMoves = new HashMap<Position, List<Position>>();
         Map<Position, Piece> positionPieceMap = gameState.getPositionToPieceMap();
 
-        for (Position position : positionPieceMap.keySet()) {
-            Piece piece = positionPieceMap.get(position);
+        for (Position startPosition : positionPieceMap.keySet()) {
+            Piece piece = gameState.getPieceAt(startPosition);
             if (piece.getOwner().equals(gameState.getCurrentPlayer())) {
-                // get all Positions this piece could potentially move to
-                List<Position> endPositions = piece.getPossibleEndPositions(position);
-                gameState.filterIllegalMoves(piece, endPositions); //remove illegal moves
-                legalMoves.put(position, endPositions);
+                List<Position> legalEndPositions = piece.getLegalEndPositions(startPosition, gameState);
+                legalMoves.put(startPosition, legalEndPositions);
             }
         }
         printMoves(legalMoves);

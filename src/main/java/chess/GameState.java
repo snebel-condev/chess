@@ -96,19 +96,6 @@ public class GameState {
         return positionToPieceMap.get(position);
     }
 
-    public List<Position> filterIllegalMoves(Piece piece, List<Position> endPositions) {
-        Player owner = piece.getOwner();
-        // for each possible move, make sure the end position isn't
-        // occupied by a piece of the same color
-        for (Position endPosition : endPositions) {
-            Piece occupyingPiece = positionToPieceMap.get(endPosition);
-            if (occupyingPiece != null && occupyingPiece.getOwner().equals(owner)) {
-                endPositions.remove(endPosition);
-            }
-        }
-        return endPositions;
-    }
-
     /**
      * Method to place a piece at a given position
      * @param piece The piece to place
