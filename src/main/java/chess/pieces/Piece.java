@@ -32,6 +32,5 @@ public abstract class Piece {
 
     protected abstract char getIdentifyingCharacter();
 
-    public abstract List<Position> getPossibleEndPositions(Position startPosition);
     public abstract List<Position> getLegalEndPositions(Position startPosition, GameState gameState);
 }

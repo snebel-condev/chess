@@ -23,12 +23,6 @@ public class Rook extends Piece {
     }
 
     @Override
-    public List<Position> getPossibleEndPositions(Position position) {
-        List<Position> endPositions = new ArrayList<Position>();
-        return endPositions;
-    }
-
-    @Override
     public List<Position> getLegalEndPositions(Position startPosition, GameState gameState) {
         List<Position> endPositions = new ArrayList<Position>();
         return endPositions;
