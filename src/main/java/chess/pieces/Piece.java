@@ -4,6 +4,7 @@ import chess.GameState;
 import chess.Player;
 import chess.Position;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,30 @@ public abstract class Piece {
 
     public Player getOwner() {
         return owner;
+    }
+
+    public List<Position> removeOutOfBoundsPositions(List<Position> endPositions) {
+        Iterator<Position> iterator = endPositions.iterator();
+        while (iterator.hasNext()) {
+            Position endPosition = iterator.next();
+            final int row = endPosition.getRow();
+            final int col = endPosition.getColumn();
+            if (row > Position.MAX_ROW || row < Position.MIN_ROW || col > Position.MAX_COLUMN || col < Position.MIN_COLUMN) {
+                iterator.remove();
+            }
+        }
+        return endPositions;
+    }
+
+    public List<Position> removeOccupiedPositions(List<Position> endPositions, GameState gameState) {
+        Iterator<Position> iterator = endPositions.iterator();
+        while (iterator.hasNext()) {
+            final Piece occupyingPiece = gameState.getPieceAt(iterator.next());
+            if (occupyingPiece != null && occupyingPiece.getOwner().equals(this.getOwner())) {
+                iterator.remove();
+            }
+        }
+        return endPositions;
     }
 
     protected abstract char getIdentifyingCharacter();

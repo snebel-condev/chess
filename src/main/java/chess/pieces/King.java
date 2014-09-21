@@ -24,6 +24,20 @@ public class King extends Piece {
     @Override
     public List<Position> getLegalEndPositions(Position startPosition, GameState gameState) {
         List<Position> endPositions = new ArrayList<Position>();
+        // TODO: deal with king moving into check
+        final char currentCol = startPosition.getColumn();
+        final int currentRow = startPosition.getRow();
+        endPositions.add(new Position(currentCol, currentRow + 1));
+        endPositions.add(new Position(currentCol, currentRow - 1));
+        endPositions.add(new Position((char) (currentCol + 1), currentRow));
+        endPositions.add(new Position((char) (currentCol - 1), currentRow));
+        endPositions.add(new Position((char) (currentCol + 1), currentRow + 1));
+        endPositions.add(new Position((char) (currentCol + 1), currentRow - 1));
+        endPositions.add(new Position((char) (currentCol - 1), currentRow + 1));
+        endPositions.add(new Position((char) (currentCol - 1), currentRow - 1));
+
+        this.removeOutOfBoundsPositions(endPositions);
+        this.removeOccupiedPositions(endPositions, gameState);
         return endPositions;
     }
 }
