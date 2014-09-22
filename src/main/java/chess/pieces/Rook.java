@@ -25,6 +25,42 @@ public class Rook extends Piece {
     @Override
     public List<Position> getLegalEndPositions(Position startPosition, GameState gameState) {
         List<Position> endPositions = new ArrayList<Position>();
+        // a rook can move in 4 possible directions
+        for (int i = 1; i < 8; i++) {
+            Position position = new Position(startPosition.getColumn(), startPosition.getRow() + i);
+            boolean addPosition = addPositionIfValid(endPositions, position, gameState);
+            if (!addPosition) { break; }
+        }
+        for (int i = 1; i < 8; i++) {
+            Position position = new Position(startPosition.getColumn(), startPosition.getRow() - i);
+            boolean addPosition = addPositionIfValid(endPositions, position, gameState);
+            if (!addPosition) { break; }
+        }
+        for (int i = 1; i < 8; i++) {
+            Position position = new Position((char) (startPosition.getColumn() + i), startPosition.getRow());
+            boolean addPosition = addPositionIfValid(endPositions, position, gameState);
+            if (!addPosition) { break; }
+        }
+        for (int i = 1; i < 8; i++) {
+            Position position = new Position((char) (startPosition.getColumn() - i), startPosition.getRow());
+            boolean addPosition = addPositionIfValid(endPositions, position, gameState);
+            if (!addPosition) { break; }
+        }
+        this.removeOutOfBoundsPositions(endPositions);
         return endPositions;
+    }
+
+    // has intended side effect of modifying endPositions
+    private boolean addPositionIfValid(List<Position> endPositions, Position position, GameState gameState) {
+        Piece occupyingPiece = gameState.getPieceAt(position);
+        if (occupyingPiece == null) {
+            endPositions.add(position);
+            return true;
+        } else {
+            if (!occupyingPiece.getOwner().equals(gameState.getCurrentPlayer())) {
+                endPositions.add(position);
+            }
+            return false;
+        }
     }
 }

@@ -44,7 +44,7 @@ public abstract class Piece {
         return endPositions;
     }
 
-    public List<Position> removeOccupiedPositions(List<Position> endPositions, GameState gameState) {
+    public void removeOccupiedPositions(List<Position> endPositions, GameState gameState) {
         Iterator<Position> iterator = endPositions.iterator();
         while (iterator.hasNext()) {
             final Piece occupyingPiece = gameState.getPieceAt(iterator.next());
@@ -52,7 +52,6 @@ public abstract class Piece {
                 iterator.remove();
             }
         }
-        return endPositions;
     }
 
     protected abstract char getIdentifyingCharacter();
